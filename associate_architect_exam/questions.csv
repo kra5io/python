@@ -1,0 +1,677 @@
+question,answer,detailed,
+"A customer relationship management (CRM) application runs on Amazon EC2 instances in multiple Availability Zones behind an Application Load Balancer.
+
+If one of these instances fails, what occurs?
+
+    A) The load balancer will stop sending requests to the failed instance.
+    B) The load balancer will terminate the failed instance.
+    C) The load balancer will automatically replace the failed instance.
+    D) The load balancer will return 504 Gateway Timeout errors until the instance is replaced.",A, An Application Load Balancer (ALB) sends requests to healthy instances only. An ALB performs periodic health checks on targets in a target group. An instance that fails health checks for a configurable number of consecutive times is considered unhealthy. The load balancer will no longer send requests to the instance until it passes another health check.,
+
+"A company needs to perform asynchronous processing, and has Amazon SQS as part of a decoupled architecture. The company wants to ensure that the number of empty responses from polling requests are kept to a minimum.
+
+What should a solutions architect do to ensure that empty responses are reduced?
+
+    A) Increase the maximum message retention period for the queue.
+    B) Increase the maximum receives for the redrive policy for the queue.
+    C) Increase the default visibility timeout for the queue.
+    D) Increase the receive message wait time for the queue.",D,"When the ReceiveMessageWaitTimeSeconds property of a queue is set to a value greater than zero, long polling is in effect. Long polling reduces the number of empty responses by allowing Amazon SQS to wait until a message is available before sending a response to a ReceiveMessage request.",
+
+"A company currently stores data for on-premises applications on local drives. The chief technology officer wants to reduce hardware costs by storing the data in Amazon S3 but does not want to make modifications to the applications. To minimize latency, frequently accessed data should be available locally.
+
+What is a reliable and durable solution for a solutions architect to implement that will reduce the cost of local storage?
+
+    A) Deploy an SFTP client on a local server and transfer data to Amazon S3 using AWS Transfer for SFTP.
+    B) Deploy an AWS Storage Gateway volume gateway configured in cached volume mode.
+    C) Deploy an AWS DataSync agent on a local server and configure an S3 bucket as the destination.
+    D) Deploy an AWS Storage Gateway volume gateway configured in stored volume mode.",B,"An AWS Storage Gateway volume gateway connects on on-premises software application with cloudbacked storage volumes that can be mounted as Internet Small Computer System Interface (iSCSI) devices from on-premises application servers. In cached volumes mode, all the data is stored in Amazon S3 and a copy of frequently accessed data is stored locally.",
+
+"A company runs a public-facing three-tier web application in a VPC across multiple Availability Zones. Amazon EC2 instances for the application tier running in private subnets need to download software patches from the internet. However, the instances cannot be directly accessible from the internet.
+
+Which actions should be taken to allow the instances to download the needed patches? (Select TWO.)
+
+    A) Configure a NAT gateway in a public subnet.
+    B) Define a custom route table with a route to the NAT gateway for internet traffic and associate it with the private subnets for the application tier.
+    C) Assign Elastic IP addresses to the application instances.
+    D) Define a custom route table with a route to the internet gateway for internet traffic and associate it with the private subnets for the application tier.
+    E) Configure a NAT instance in a private subnet.",A B,"A NAT gateway forwards traffic from the instances in the private subnet to the internet or other AWS services, and then sends the response back to the instances. After a NAT gateway is created, the route tables for private subnets must be updated to point internet traffic to the NAT gateway.",
+
+"A solutions architect wants to design a solution to save costs for Amazon EC2 instances that do not need to run during a 2-week company shutdown. The applications running on the instances store data in instance memory (RAM) that must be present when the instances resume operation.
+
+Which approach should the solutions architect recommend to shut down and resume the instances?
+
+    A) Modify the application to store the data on instance store volumes. Reattach the volumes while restarting them.
+    B) Snapshot the instances before stopping them. Restore the snapshot after restarting the instances.
+    C) Run the applications on instances enabled for hibernation. Hibernate the instances before the shutdown.
+    D) Note the Availability Zone for each instance before stopping it. Restart the instances in the same Availability Zones after the shutdown.",C,"Hibernating an instance saves the contents of RAM to the Amazon EBS root volume. When the instance restarts, the RAM contents are reloaded.",
+
+"A company plans to run a monitoring application on an Amazon EC2 instance in a VPC. Connections are made to the instance using its private IPv4 address. A solutions architect needs to design a solution that will allow traffic to be quickly directed to a standby instance if the application fails and becomes unreachable.
+
+Which approach will meet these requirements?
+
+    A) Deploy an Application Load Balancer configured with a listener for the private IP address and register the primary instance with the load balancer. Upon failure, de-register the instance and register the secondary instance.
+    B) Configure a custom DHCP option set. Configure DHCP to assign the same private IP address to the secondary instance when the primary instance fails.
+    C) Attach a secondary elastic network interface (ENI) to the instance configured with the private IP address. Move the ENI to the standby instance if the primary instance becomes unreachable.
+    D) Associate an Elastic IP address with the network interface of the primary instance. Disassociate the Elastic IP from the primary instance upon failure and associate it with a secondary instance.",C,"A secondary ENI can be added to an instance. While primary ENIs cannot be detached from an instance, secondary ENIs can be detached and attached to a different instance.",
+
+"An analytics company is planning to offer a site analytics service to its users. The service will require that the users’ webpages include a JavaScript script that makes authenticated GET requests to the company’s Amazon S3 bucket.
+
+What must a solutions architect do to ensure that the script will successfully execute?
+
+    A) Enable cross-origin resource sharing (CORS) on the S3 bucket.
+    B) Enable S3 versioning on the S3 bucket.
+    C) Provide the users with a signed URL for the script.
+    D) Configure a bucket policy to allow public execute privileges.",A,Web browsers will block the execution of a script that originates from a server with a different domain name than the webpage. Amazon S3 can be configured with CORS to send HTTP headers that allow the script execution.,
+
+"A company’s security team requires that all data stored in the cloud be encrypted at rest at all times using encryption keys stored on-premises.
+
+Which encryption options meet these requirements? (Select TWO.)
+
+    A) Use Server-Side Encryption with Amazon S3 Managed Keys (SSE-S3).
+    B) Use Server-Side Encryption with AWS KMS Managed Keys (SSE-KMS).
+    C) Use Server-Side Encryption with Customer Provided Keys (SSE-C).
+    D) Use client-side encryption to provide at-rest encryption.
+    E) Use an AWS Lambda function triggered by Amazon S3 events to encrypt the data using the customer’s keys.",C D,Server-Side Encryption with Customer-Provided Keys (SSE-C) enables Amazon S3 to encrypt objects server side using an encryption key provided in the PUT request. The same key must be provided in GET requests for Amazon S3 to decrypt the object. Customers also have the option to encrypt data client side before uploading it to Amazon S3 and decrypting it after downloading it. AWS SDKs provide an S3 encryption client that streamlines the process.,
+
+"A company needs to maintain access logs for a minimum of 5 years due to regulatory requirements. The data is rarely accessed once stored, but must be accessible with one day’s notice if it is needed.
+
+What is the MOST cost-effective data storage solution that meets these requirements?
+
+    A) Store the data in Amazon S3 Glacier Deep Archive storage and delete the objects after 5 years using a lifecycle rule.
+    B) Store the data in Amazon S3 Standard storage and transition to Amazon S3 Glacier after 30 days using a lifecycle rule.
+    C) Store the data in logs using Amazon CloudWatch Logs and set the retention period to 5 years.
+    D) Store the data in Amazon S3 Standard-Infrequent Access (S3 Standard-IA) storage and delete the objects after 5 years using a lifecycle rule.",A,Data can be stored directly in Amazon S3 Glacier Deep Archive. This is the cheapest S3 storage class.,
+
+"A company uses Reserved Instances to run its data-processing workload. The nightly job typically takes 7 hours to run and must finish within a 10-hour time window. The company anticipates temporary increases in demand at the end of each month that will cause the job to run over the time limit with the capacity of the current resources. Once started, the processing job cannot be interrupted before completion. The company wants to implement a solution that would allow it to provide increased capacity as cost-effectively as possible.
+
+What should a solutions architect do to accomplish this?
+
+    A) Deploy On-Demand Instances during periods of high demand.
+    B) Create a second Amazon EC2 reservation for additional instances.
+    C) Deploy Spot Instances during periods of high demand.
+    D) Increase the instance size of the instances in the Amazon EC2 reservation to support the increased workload",A,"While Spot Instances would be the least costly option, they are not suitable for jobs that cannot be interrupted or must complete within a certain time period. On-Demand Instances would be billed for the number of seconds they are running.",
+
+"You would like to make sure your EC2 instances have the highest performance while talking to each other as you're performing big data analysis. Which placement group should you choose?
+
+    a) cluster
+    b) spread",a,Cluster placement groups places your instances next to each other giving you high performance computing and networking,
+
+"You plan on running an open-source MongoDB database year-round on EC2. Which instance launch mode should you choose?
+
+    a) On-Demand
+    b) Reserved Instances
+    c) Spot Instances",b,This will allow you to save cost as you know in advance that the instance will be a up for a full year,
+
+"You built and published an AMI in the ap-southeast-2 region, and your colleague in us-east-1 region cannot see it
+
+    a) Their IAM permissions are wrong.
+    b) an AMI created for a region can only be seen in that region
+    c) You need to share the AMI with them explicitly",b,Good job!,
+
+"You are launching an EC2 instance in us-east-1 using this Python script snippet:
+(we will see SDK in a later section, for now just look at the code reference ImageId)
+    ec2.create_instances(ImageId='ami-b23a5e7', MinCount=1, MaxCount=1)
+
+It works well, so you decide to deploy your script in us-west-1 as well. There, the script does not work and fails with 'ami not found' error. What's the problem?
+
+    a) AMI is region locked and the same ID cannot be used across regions
+    b) The AMI needs to first be shared to another region. The same ID can then be used",a,Good Job!,
+
+"You would like to deploy a database technology and the vendor license bills you based on the physical cores and underlying network socket visibility. Which EC2 launch modes allow you to get visibility into them?
+
+    a) Spot Instances
+    b) Dedicated Hosts
+    c) On-Demand
+    d) Reserved Instances",b,Good Job!,
+
+"You are launching an application on EC2 and the whole process of installing the application takes about 30 minutes. You would like to minimize the total time for your instance to boot up and be operational to serve traffic. What do you recommend?
+
+    a) Install the application using EC2 User Data
+    b) Create an AMI after installing the application and launch from the AMI
+    c) Use the EC2 Cluster Placement Group
+    d) Provision an R4.xlarge instance type",b,"Creating an AMI after installing the applications allows you to start more EC2 instances directly from that AMI, hence bypassing the need to install the application (as it's already installed)",
+
+"You are running a critical workload of three hours per week, on Monday. As a solutions architect, which EC2 Instance Launch Type should you choose to maximize the cost savings while ensuring the application stability?
+
+    a) On-Demand Instances
+    b) Reserved Instances
+    c) Spot Instances
+    d) Scheduled Reserved Instances",d,Good Job!,
+
+"Load Balancers provide a
+
+    a) static IPv4 we can use in our application
+    b) static DNS name we can use in our application
+    c) static IPv6 we can use in our application",b,"The reason being that AWS wants your load balancer to be accessible using a static endpoint, even if the underlying infrastructure that AWS manages changes",
+
+"You are running a website with a load balancer and 10 EC2 instances. Your users are complaining about the fact that your website always asks them to re-authenticate when they switch pages. You are puzzled, because it's working just fine on your machine and in the dev environment with 1 server. What could be the reason?
+
+    a) The application must have a bug
+    b) The Load Balancer does not have stickiness enabled
+    c) The EC2 instances log out users because they don't see their true IPs",b,Stickiness ensures traffic is sent to the same backend instance for a client. This helps maintaining session data,
+
+"Your application is using an Application Load Balancer. It turns out your application only sees traffic coming from private IP which are in fact your load balancer's. What should you do to find the true IP of the clients connected to your website?
+
+    a) Modify the front-end of the website so that the users send their IP in the requests
+    b) Look into the X-Forwarded-For header in the backend
+    c) Look into the X-Forwarded-Proto header in the backend",b,This header is created by your load balancer and passed on to your backend application,
+
+"You quickly created an ELB and it turns out your users are complaining about the fact that sometimes, the servers just don't work. You realise that indeed, your servers do crash from time to time. How to protect your users from seeing these crashes?
+
+    a) Enable Stickiness
+    b) Enable Health Checks
+    c) Enable SSL Termination",b,Health checks ensure your ELB won't send traffic to unhealthy (crashed) instances,
+
+"You are designing a high performance application that will require millions of connections to be handled, as well as low latency. The best Load Balancer for this is
+
+    a) Application Load Balancer
+    b) Classic Load Balancer
+    c) Network Load Balancer",c,NLB provide the highest performance if your application needs it,
+
+"Application Load Balancers handle all these protocols except
+
+    a) HTTP
+    b) HTTPS
+    c) Websocket
+    d) TCP",d,Use a NLB (Network Load Balancer) support TCP instead,
+
+"The application load balancer can route to different target groups based on all these except...
+
+    a) Hostname
+    b) Request Path
+    c) Geography
+    d) Source IP",c,Nice!,
+
+"You are running at desired capacity of 3 and the maximum capacity of 3. You have alarms set at 60% CPU to scale out your application. Your application is now running at 80% capacity. What will happen?
+
+    a) Nothing
+    b) The desired capacity will go up to 4 and the maximum will stay at 3
+    c) The desired capacity will go up to 4 and the maximum will stay at 4",a,The capacity of your ASG cannot go over the maximum capacity you have allocated during scale out events,
+
+"I have an ASG and an ALB, and I setup my ASG to get health status of instances thanks to my ALB. One instance has just been reported unhealthy. What will happen?
+
+    a) The ASG will keep the instance running and re-start the application
+    b) The ASG will detach the EC2 instance from the group, and leave it running
+    c) The ASG will terminate the EC2 Instance",c,"Because the ASG has been configured to leverage the ALB health checks, unhealthy instances will be terminated",
+
+"Your boss wants to scale your ASG based on the number of requests per minute your application makes to your database.
+
+    a) You politely tell him it's impossible
+    b) You create a CloudWatch custom metric and build an alarm on this to scale your ASG
+    c) You enable detailed monitoring and use that to scale your ASG",b,"The metric requests per minute"" is not an AWS metric"," hence it needs to be a custom metric"""
+
+"Scaling an instance from an r4.large to an r4.4xlarge is called
+
+    a) Horizontal Scalability
+    b) Vertical Scalability",b,Nice!,
+
+"Running an application on an auto scaling group that scales the number of instances in and out is called
+
+    a) Vertical Scalability
+    b) Horizontal Scalability",b,Good Job!,
+
+"You would like to expose a fixed static IP to your end-users for compliance purposes, so they can write firewall rules that will be stable and approved by regulators. Which Load Balancer should you use?
+
+    a) Application Load Balancer with Elastic IP attached to it
+    b) Network Load Balancer
+    c) Classic Load Balancer",b,"Network Load Balancers expose a public static IP, whereas an Application or Classic Load Balancer exposes a static DNS (URL)",
+
+"A web application hosted in EC2 is managed by an ASG. You are exposing this application through an Application Load Balancer. The ALB is deployed on the VPC with the following CIDR: 192.168.0.0/18. How do you configure the EC2 instance security group to ensure only the ALB can access the port 80?
+
+    a) Open up the EC2 security group on port 80 to 0.0.0.0/0
+    b) Open up the EC2 security group on port 80 to 192.168.0.0/18
+    c) Open up the EC2 security on port 80 to the ALB's security group
+    d) Load an SSL client certificate on the ALB",c,This is the most secure way of ensuring only the ALB can access the EC2 instances. Referencing by security groups in rules is an extremely powerful rule and many questions at the exam rely on it. Make sure you fully master the concepts behind it!,
+
+"Your application load balancer is hosting 3 target groups with hostnames being users.example.com, api.external.example.com and checkout.example.com. You would like to expose HTTPS traffic for each of these hostnames. How do you configure your ALB SSL certificates to make this work?
+
+    a) Use SNI
+    b) Use a wildcard SSL certificate
+    c) Use an HTTP to HTTPS redirect rule
+    d) Use a security group SSL certificate",a,SNI (Server Name Indication) is a feature allowing you to expose multiple SSL certs if the client supports it. Read more here: https://aws.amazon.com/blogs/aws/new-application-load-balancer-sni/,
+
+"An ASG spawns across 2 availability zones. AZ-A has 3 EC2 instances and AZ-B has 4 EC2 instances. The ASG is about to go into a scale-in event. What will happen?
+
+    a) The AZ-A will terminate an instance randomly
+    b) The AZ-A will terminate the instance with the oldest launch configuration
+    c) The AZ-B will terminate the instance with the oldest launch configuration
+    d) The AZ-B will terminate an instance randomly
+    e) The AZ-A will create an EC2 instance.",c,"Make sure you remember the Default Termination Policy for ASG. It tries to balance across AZ first, and then delete based on the age of the launch configuration.",
+
+"The Application Load Balancers target groups can be all of these EXCEPT...
+
+    a) EC2 Instances
+    b) IP Adresses
+    c) Lambda Functions
+    d) Network Load Balancer",d,Good Job!,
+
+"You are running an application in 3 AZ, with an Auto Scaling Group and a Classic Load Balancer. It seems that the traffic is not evenly distributed amongst all the backend EC2 instances, with some AZ being overloaded. Which feature should help distribute the traffic across all the available EC2 instances?
+
+    a) Stickiness
+    b) Cross Zone Load Balancing
+    c) Target Group Routing Rules
+    d) HTTPS termination",b,Yes!,
+
+"Your Application Load Balancer (ALB) currently is routing to two target groups, each of them is routed to based on hostname rules. You have been tasked with enabling HTTPS traffic for each hostname and have loaded the certificates onto the ALB. Which ALB feature will help it choose the right certificate for your clients?
+
+    a) TLS Termination
+    b) Server Name Indication (SNI)
+    c) SSL Security Policies
+    d) Host Header",b,Good!,
+
+"An application is deployed with an Application Load Balancer and an Auto Scaling Group. Currently, the scaling of the Auto Scaling Group is done manually and you would like to define a scaling policy that will ensure the average number of connections to your EC2 instances is averaging at around 1000. Which scaling policy should you use?
+
+    a) Simple Scaling Policy
+    b) Step Scaling Policy
+    c) Target Tracking
+    d) Scheduled Scaling",c,Good!,
+
+"Your instance in us-east-1a just got terminated, and the attached EBS volume is now available. Your colleague tells you he can't seem to attach it to your instance in us-east-1b.
+
+    a) He's missing IAM permissions
+    b) EBS volumes are region locked
+    c) EBS volumes are AZ locked",c,EBS Volumes are created for a specific AZ. It is possible to migrate them between different AZ through backup and restore,
+
+"You have provisioned an 8TB gp2 EBS volume and you are running out of IOPS. What is NOT a way to increase performance?
+
+    a) Increase the EBS volume size
+    b) Mount EBS volumes in RAID 0
+    c) Change to an io1 volume type",a,"EBS IOPS peaks at 16,000 IOPS. or equivalent 5334 GB.",
+
+"You would like to leverage EBS volumes in parallel to linearly increase performance, while accepting greater failure risks. Which RAID mode helps you in achieving that?
+
+    a) RAID 0
+    b) RAID 1
+    c) RAID 5
+    d) RAID 6",a,See https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/raid-config.html,
+
+"Although EBS is already a replicated solution, your company SysOps advised you to use a RAID mode that will mirror data and will allow your instance to not be affected if an EBS volume entirely fails. Which RAID mode did he recommend to you?
+
+    a) RAID 0
+    b) RAID 1",b,See https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/raid-config.html,
+
+"You would like to have the same data being accessible as an NFS drive cross AZ on all your EC2 instances. What do you recommend?
+
+    a) Mount an EFS
+    b) Mount an EBS
+    c) Mount an Instance Store",a,EFS is a network file system (NFS) and allows to mount the same file system on EC2 instances that are in different AZ,
+
+"You would like to have a high-performance cache for your application that mustn't be shared. You don't mind losing the cache upon termination of your instance. Which storage mechanism do you recommend as a Solution Architect?
+
+    a) Instance Store
+    b) EBS
+    c) EFS",a,Instance Store provide the best disk performance,
+
+"You are running a high-performance database that requires an IOPS of 210,000 for its underlying filesystem. What do you recommend?
+
+    a) Use an EBS gp2 drive
+    b) Use an EBS io1 drive
+    c) Use an EC2 Instance Store
+    d) Use EFS",c,"Is running a DB on EC2 instance store possible? It is possible to run a database on EC2. It is also possible to use instance store, but there are some considerations to have. The data will be lost if the instance is stopped, but it can be restarted without problems. One can also set up a replication mechanism on another EC2 instance with instance store to have a standby copy. One can also have back-up mechanisms. It's all up to how you want to set up your architecture to validate your requirements. In this case, it's around IOPS, and we build an architecture of replication and back up around it",
+
+"My company would like to have a MySQL database internally that is going to be available even in case of a disaster in the AWS Cloud. I should setup
+
+    a) Read Replicas
+    b) Encryption
+    c) Multi AZ",c,"In this question, we consider a disaster to be an entire Availability Zone going down. In which case Multi-AZ will help. If we want to plan against an entire region going down, backups and replication across regions would help.",
+
+"Our RDS database struggles to keep up with the demand of the users from our website. Our million users mostly read news, and we don't post news very often. Which solution is NOT adapted to this problem?
+
+    a) An ElastiCache cluster
+    b) RDS Read Replicas
+    c) RDS Multi AZ",c,"Be very careful with the way you read questions at the exam. Here, the question is asking which solution is NOT adapted to this problem. ElastiCache and RDS Read Replicas do indeed help with scaling reads.",
+
+"We have setup read replicas on our RDS database, but our users are complaining that upon updating their social media posts, they do not see the update right away
+
+    a) There must be a bug in our application
+    b) Read Replicas have asynchronous replication and therefore it's likely our users will only observe eventual consistency
+    c) We should have setup multi-az instead",b,Good!,
+
+"Which RDS Classic (not Aurora) feature does not require us to change our SQL connection string?
+
+    a) Read Replicas
+    b) Multi AZ",b,Multi AZ keeps the same connection string regardless of which database is up. Read Replicas imply we need to reference them individually in our application as each read replica will have its own DNS name,
+
+"You want to ensure your Redis cluster will always be available
+
+    a) Enable Read Replicas
+    b) Enable Multi AZ",b,Multi AZ ensures high availability,
+
+"Your application functions on an ASG behind an ALB. Users have to constantly log back in and you'd rather not enable stickiness on your ALB as you fear it will overload some servers. What should you do?
+
+    a) Create your own Load Balancer and deploy that on EC2 instances
+    b) Store session data in RDS
+    c) Store session data in ElastiCache
+    d) Store session data in a shared EBS volume",c,Storing Session Data in ElastiCache is a common pattern to ensuring different instances can retrieve your user's state if needed.,
+
+"One analytics application is currently performing its queries against your main production database. These queries slow down the database which impacts the main user experience. What should you do to improve the situation?
+
+    a) Setup a Read Replica
+    b) Setup Multi AZ
+    c) Run the analytics queries at night
+    d) Increase the RDS instance size",a,"Read Replicas will help as our analytics application can now perform queries against it, and these queries won't impact the main production database.",
+
+"You have a requirement to use TDE (Transparent Data Encryption) on top of KMS. Which database technology does NOT support TDE on RDS?
+
+    a) PostgreSQL
+    b) Oracle
+    c) MS SQL Server",a,Good Job!,
+
+"Which RDS database technology does NOT support IAM authentication?
+
+    a) Oracle
+    b) PostgreSQL
+    c) MySQL",a,niceu!,
+
+"You would like to ensure you have a database available in another region if a disaster happens to your main region. Which database do you recommend?
+
+    a) RDS Read Replicas
+    b) RDS Multi AZ
+    c) Aurora Read Replicas
+    d) Aurora Global Database",d,Global Databases allow you to have cross region replication,
+
+"How can you enhance the security of your Redis cache to force users to enter a password?
+
+    a) Use Redis Auth
+    b) Use IAM Auth
+    c) Use Security Groups",a,Correct!,
+
+"Your company has a production Node.js application that is using RDS MySQL 5.6 as its data backend. A new application programmed in Java will perform some heavy analytics workload to create a dashboard, on a regular hourly basis. You want to the final solution to minimize costs and have minimal disruption on the production application, what should you do?
+
+    a) Enable Multi-AZ for the RDS database and run the analytics workload on the standby database
+    b) Create a Read Replica in a different AZ and run the analytics workload on the replica database
+    c) Create a Read Replica in a different AZ and run the analytics workload on the source database
+    d) Create a Read Replica in the same AZ and run the analytics workload on the replica database",d,this will minimize cost because the data won't have to move across AZ,
+
+"You would like to create a disaster recovery strategy for your RDS PostgreSQL database so that in case of a regional outage, a database can be quickly made available for Read and Write workload in another region. The DR database must be highly available. What do you recommend?
+
+    a) Create a Read Replica in the same region and enable multi-AZ on the main database
+    b) Create a Read Replica in a different region and enable multi-AZ on the main database
+    c) Create a Read Replica in the same region and enable multi-AZ on the read replica
+    d) Enable Multi-Region on the main database",b,Good job!,
+
+"You are managing a PostgreSQL database and for security reasons, you would like to ensure users are authenticated using short-lived credentials. What do you suggest doing?
+
+    a) Install PostgreSQL on EC2 and install the pg_iam module. Authenticate using IAM username and password
+    b) Use PostgreSQL for RDS and install the pg_iam module. Authenticate using IAM username and password
+    c) Use PostgreSQL for RDS and authenticate using a token obtained through the RDS service.
+    d) Use PostgreSQL for RDS and force SSL connections. Authenticate using SSL certificates that you regularly rotate",c,"In this case, IAM is leveraged to obtain the RDS service token, so this is the IAM authentication use case.",
+
+"An application is running in production, using an Aurora database as its backend. Your development team would like to run a version of the application in a scaled-down application, but still, be able to perform some heavy workload on a need-basis. Most of the time, the application will be unused. Your CIO has tasked you with helping the team while minimizing costs. What do you suggest?
+
+    a) Use an Aurora Global Database
+    b) Use an RDS database instead
+    c) Use Aurora Serverless
+    d) Run Aurora on EC2, and write a script to shut down the EC2 instance at night",c,Good job!,
+
+"You have purchased 'mycoolcompany.com' on the AWS registrar and would like for it to point to lb1-1234.us-east-2.elb.amazonaws.com
+What sort of Route 53 record is NOT POSSIBLE to set up for this?
+
+    a) CNAME
+    b) Alias",a,"The DNS protocol does not allow you to create a CNAME record for the top node of a DNS namespace (mycoolcompany.com), also known as the zone apex",
+
+"You have deployed a new Elastic Beanstalk environment and would like to direct 5% of your production traffic to this new environment, in order to monitor for CloudWatch metrics and ensuring no bugs exist. What type of Route 53 records allows you to do so?
+
+    a) Simple
+    b) Weighted
+    c) Latency
+    d) Failover",b,Weighted allows you to redirect a part of the traffic based on a weight (hence a percentage). It's common to use to send a part of a traffic to a new application you're deploying,
+
+"After updating a Route 53 record to point 'myapp.mydomain.com' from an old Load Balancer to a new load balancer, it looks like the users are still not redirected to your new load balancer. You are wondering why...
+
+    a) it's because of the alias record!
+    b) it's because of the CNAME record!
+    c) it's because of the TTL
+    d) it's because of the health checks",c,DNS records have a TTL (Time to Live) in order for clients to know for how long to caches these values and not overload the DNS with DNS requests. TTL should be set to strike a balance between how long the value should be cached vs how much pressure should go on the DNS.,
+
+"You want your users to get the best possible user experience and that means minimizing the response time from your servers to your users. Which routing policy will help?
+
+    a) Multi Value
+    b) Weighted
+    c) Latency
+    d) Geo Location",c,Latency will evaluate the latency results and help your users get a DNS response that will minimize their latency (e.g. response time),
+
+"You have a legal requirement that people in any country but France should not be able to access your website. Which Route 53 record helps you in achieving this?
+
+    a) Latency
+    b) Simple
+    c) Geolocation
+    d) Multi Value",c,Good!,
+
+"You have purchased a domain on Godaddy and would like to use it with Route 53. What do you need to change to make this work?
+
+    a) Request for a domain transfer
+    b) Create a private hosted zone and update the 3rd party registrar NS records
+    c) Create a public hosted zone and update the Route 53 NS records
+    d) Create a public hosted zone and update the 3rd party registrar NS records",d,"Private hosted zones are meant to be used for internal network queries and are not publicly accessible. Public Hosted Zones are meant to be used for people requesting your website through the public internet. Finally, NS records must be updated on the 3rd party registrar.",
+
+"You have an ASG that scales on demand based on the traffic going to your new website: TriangleSunglasses.Com. You would like to optimise for cost, so you have selected an ASG that scales based on demand going through your ELB. Still, you want your solution to be highly available so you have selected the minimum instances to 2. How can you further optimize the cost while respecting the requirements?
+
+    a) Remove the ELB and use Elastic IP instead
+    b) Reserve two EC2 instances
+    c) Reduce the minimum number of instances to 1.
+    d) Reduce the minimum number of instances to 0.",b,This is the way to save further costs as we know we will run 2 EC2 instances no matter what.,
+
+"Which of the following will NOT help make our application tier stateless?
+
+    a) Offload data in RDS
+    b) Store the session data in ElastiCache
+    c) Send the session data through the client cookies
+    d) Storing shared data on EBS volumes",d,EBS volumes are created for a specific AZ and can only be attached to one EC2 instance at a time. This will not help make our application stateles,
+
+"You are looking to store shared software updates data across 100s of EC2 instances. The software updates should be dynamically loaded on the EC2 instances and shouldn't require heavy operations. What do you suggest?
+
+    a) Store the software updates on EBS and sync them using data replication software from one master in each AZ
+    b) Store the software updates on EFS and mount EFS as a network drive
+    c) Package the software updates as an EBS snapshot and create EBS volumes for each new software updates.
+    d) Store the software updates on an Amazon RDS instance",b,EFS is a network file system (NFS) and allows to mount the same file system to 100s of EC2 instances. Publishing software updates there allow each EC2 instance to access them.,
+
+"As a solution architect managing a complex ERP software suite, you are orchestrating a migration to the AWS cloud. The software traditionally takes well over an hour to setup on a Linux machine, and you would like to make sure your application does leverage the ASG feature of auto scaling based on the demand. How do you recommend you speed up the installation process?
+
+    a) Use a Golden AMI
+    b) Bootstrap using User Data
+    c) Store the application in RDS
+    d) Retrieve the application setup files from EFS",a,Golden AMI are a standard in making sure you snapshot a state after an application installation so that future instances can boot up from that AMI quickly.,
+
+"I am creating an application and would like for it to be running with minimal cost in a development environment with Elastic Beanstalk. I should run it in
+
+    a) Single Instance Mode
+    b) High Availability Mode",a,This will create one EC2 instance and one Elastic IP,
+
+"My deployments on Elastic Beanstalk have been painfully slow, and after looking at the logs, I realize this is due to the fact that my dependencies are resolved on each EC2 machine at deployment time. How can I speed up my deployment with the minimal impact?
+
+    a) Remove some dependencies in your code
+    b) Place the dependencies in Amazon EFS
+    c) Create a Golden AMI that contains the dependencies and launch the EC2 instances from that.",c,Golden AMI are a standard in making sure save the state after the installation or pulling dependencies so that future instances can boot up from that AMI quickly.,
+
+"You're trying to upload a 25 GB file on S3 and it's not working
+
+    a) The file size limit on S3 is 5GB
+    b) The S3 service must be down
+    c) You should use Multi Part upload when your file is bigger than 5GB",c,Multi Part Upload is also recommended as soon as the file is over 100MB,
+
+"I tried creating an S3 bucket named 'dev' but it didn't work. This is a new AWS Account and I have no buckets at all. What is the cause?
+
+    a) I'm missing IAM permissions to create a bucket
+    b) Bucket names must be globally unique and 'dev' is already taken",b,yep,
+
+"You've added files in your bucket and then enabled versioning. The files you've already added will have which version?
+
+    a) 1
+    b) 0
+    c) -1
+    d) null",d,correct,
+
+"Your client wants to make sure the encryption is happening in S3, but wants to fully manage the encryption keys and never store them in AWS. You recommend
+
+    a) SSE-S3
+    b) SSE-KMS
+    c) SSE-C
+    d) Client Side Encryption (CSE)",c,"Here you have full control over the encryption keys, and let AWS do the encryption",
+
+"Your company wants data to be encrypted in S3, and maintain control of the rotation policy for the encryption keys, but not know the encryption keys values. You recommend
+
+    a) SSE-S3
+    b) SSE-KMS
+    c) SSE-C
+    d) Client Side Encryption",b,With SSE-KMS you let AWS manage the encryption keys but you have full control of the key rotation policy,
+
+"Your company does not trust S3 for encryption and wants it to happen on the application. You recommend
+
+    a) SSE-S3
+    b) SSE-KMS
+    c) SSE-C
+    d) Client Side Encryption",d,With Client Side Encryption you perform the encryption yourself and send the encrypted data to AWS directly. AWS does not know your encryption keys and cannot decrypt your data.,
+
+"The bucket policy allows our users to read/write files in the bucket, yet we were not able to perform a PutObject API call.
+
+    a) The bucket policy must be wrong
+    b) The IAM user must have an explicit DENY in the attached IAM policy
+    c) You need to contact AWS Support to lift this limit",b,Explicit DENY in an IAM policy will take precedence over a bucket policy permission,
+
+"You have a website that loads files from another S3 bucket. When you try the URL of the files directly in your Chrome browser it works, but when the website you're visiting tries to load these files it doesn't. What's the problem?
+
+    a) The Bucket policy is wrong
+    b) The IAM policy is wrong
+    c) CORS is wrong
+    d) Encryption is wrong",c,"Cross-origin resource sharing (CORS) defines a way for client web applications that are loaded in one domain to interact with resources in a different domain. To learn more about CORS, go here: https://docs.aws.amazon.com/AmazonS3/latest/dev/cors.html",
+
+"My EC2 Instance does not have the permissions to perform an API call PutObject on S3. What should I do?
+
+    a) I should run `aws configure` and insert my personal credentials, because I have access to PutObject on S3
+    b) I should ask an administrator to attach a Policy to the IAM Role on my EC2 Instance that authorises it to do the API call
+    c) I should export the environment variables with my credentials on the EC2 Instance
+    d) I should use the EC2 Metadata API call",b,IAM roles are the right way to provide credentials and permissions to an EC2 instance,
+
+"I have an on-premise personal server that I'd like to use to perform AWS API calls
+
+    a) I should run `aws configure` and put my credentials there. Invalidate them when I'm done
+    b) I should attach an EC2 IAM Role to my personal server",a,Even better would be to create a user specifically for that one on-premise server. You can't attach EC2 IAM roles to on premise servers.,
+
+"I need my colleagues help to debug my code. When he runs the application on his machine, it's working fine, whereas I get API authorisation exceptions. What should I do?
+
+    a) Send him my AWS access key and secret key so he can replicate the issue on his machine
+    b) Ask him to send me his credentials so I can start working
+    c) Compare his IAM policy and my IAM policy in the policy simulator to understand the differences
+    d) Ask him to create an EC2 server and puts his credentials there so I can run the application from the EC2 Instance",c,correct,
+
+"To get the instance id of my EC2 machine from the EC2 machine, the best thing is to...
+
+    a) Create an IAM role and attach it to my EC2 instance so I can perform a 'describe' API call
+    b) Query the user data at http://169.254.169.254/latest/user-data
+    c) Query the meta data at http://169.254.169.254/latest/meta-data
+    d) Query the meta data at http://254.169.254.169/latest/meta-data",c,correct,
+
+"You have enabled versioning and want to be extra careful when it comes to deleting files on S3. What should you enable to prevent accidental permanent deletions?
+
+    a) Use a bucket policy
+    b) Enable MFA Delete
+    c) Encrypt the files
+    d) Disable versioning",b,MFA Delete forces users to use MFA tokens before deleting objects. It's an extra level of security to prevent accidental deletes,
+
+"You would like all your files in S3 to be encrypted by default. What is the optimal way of achieving this?
+
+    a) Use a Bucket Policy that forces HTTPS connections
+    b) Enable 'Default Encryption' on S3
+    c) Enable Versioning",b,correct,
+
+"You suspect some of your employees to try to access files in S3 that they don't have access to. How can you verify this is indeed the case without them noticing?
+
+    a) Restrict their IAM policies and look at CloudTrail logs
+    b) Enable S3 Access Logs and analyze them using Athena
+    c) Use a bucket policy",b,"S3 Access Logs log all the requests made to buckets, and Athena can then be used to run serverless analytics on top of the logs files",
+
+"You are looking for your entire S3 bucket to be available fully in a different region so you can perform data analysis optimally at the lowest possible cost. Which feature should you use?
+
+    a) CloudFront distributions
+    b) S3 Cross Region Replication
+    c) S3 versioning
+    d) S3 Websites",b,S3 CRR is used to replicate data from an S3 bucket to another one in a different region,
+
+"You are looking to provide temporary URLs to a growing list of federated users in order to allow them to perform a file upload on S3 to a specific location. What should you use?
+
+    a) S3 CORS
+    b) S3 Pre-Signed URL
+    c) S3 Bucket Policies
+    d) IAM Users",b,Pre-Signed URL are temporary and grant time-limited access to some actions in your S3 bucket.,
+
+"How can you automate the transition of S3 objects between their different tiers?
+
+    a) Use AWS Lambda
+    b) Use CloudWatch Events
+    c) Use S3 Lifecycle Rules",c,Good Job!,
+
+"Which of the following is NOT a Glacier retrieval mode?
+
+    a) Instant (10 seconds)
+    b) Expedited (1 to 5 minutes)
+    c) Standard (3 to 5 hours)
+    d) Bulk (5 to 12 hours)",a,correct,
+
+"Which of the following is a Serverless data analysis service allowing you to query data in S3?
+
+    a) S3 Analytics
+    b) Athena
+    c) Redshift
+    d) RDS",b,correct,
+
+"You are looking to build an index of your files in S3, using Amazon RDS PostgreSQL. To build this index, it is necessary to read the first 250 bytes of each object in S3, which contains some metadata about the content of the file itself. There is over 100,000 files in your S3 bucket, amounting to 50TB of data. how can you build this index efficiently?
+
+    a) Use the RDS Import feature to load the data from S3 to PostgreSQL, and run a SQL query to build the index
+    b) Create an application that will traverse the S3 bucket, read all the files one by one, extract the first 250 bytes, and store that information in RDS.
+    c) Create an application that will traverse the S3 bucket, issue a Byte Range Fetch for the first 250 bytes, and store that information in RDS.
+    d) Create an application that will traverse the S3 bucket, use S3 select to get the first 250 bytes, and store that information in RDS.",c,correct,
+
+"Which features allows us to distribute paid content from S3 securely, globally, if the S3 bucket is secured to only exchange data with CloudFront?
+
+    a) Origin Access Identity
+    b) S3 Pre-Signed URL
+    c) CloudFront Signed URL
+    d) CloudFront Distribution Invalidations",c,CloudFront Signed URL are commonly used to distribute paid content through dynamic CloudFront Signed URL generation.,
+
+"You are hosting highly dynamic content in Amazon S3 in us-east-1. Recently, there has been a need to make that data available with low latency in Singapore. What do you recommend using?
+
+    a) CloudFront
+    b) S3 Cross Region Replication
+    c) S3 Pre-Signed URLs",b,S3 CRR allows you to replicate the data from one bucket in a region to another bucket in another region,
+
+"How can you ensure that only users who access our website through Canada are authorized in CloudFront?
+
+    a) Set up a security group and attach it to CloudFront
+    b) Use a Route 53 Latency record and attach it to CloudFront
+    c) Use CloudFront Geo Restriction",c,Good Job!,
+
+"You would like to provide your users access to hundreds of private files in your CloudFront distribution, which is fronting an HTTP web server behind an application load balancer. What should you use?
+
+    a) CloudFront Signed URL
+    b) CloudFront Signed Cookies
+    c) CloudFront Origin Access Identity
+    d) CloudFront HTTPS encryption",b,Allows you to access many files,
+
+"You are creating an application that is going to expose an HTTP REST API. There is a need to provide request routing rules at the HTTP level. Due to security requirements, your application can only be exposed through the use of two static IPs. How can you create a solution that validates these requirements?
+
+    a) Use Global Accelerator and an Application Load Balancer
+    b) Use a Network Load Balancer and attach Elastic IPs to it
+    c) Use an Application Load Balancer and attach Elastic IPs to it
+    d) Use CloudFront with Elastic IP and an Application Load Balancer",a,"Global Accelerator will provide us with the two static IP, and the ALB will provide use with the HTTP routing rules",
+
+"What does this S3 bucket policy do?
+
+ {
+   ''Version'':''2012-10-17'',
+   ''Id'':''Mystery policy'',
+   ''Statement'':[
+     {
+       ''Sid'':''What could it be?'',
+       ''Effect'':''Allow'',
+       ''Principal'':{''CanonicalUser'':''CloudFront Origin Identity Canonical User ID''},
+       ''Action'':''s3:GetObject'',
+       ''Resource'':''arn:aws:s3:::examplebucket/*''
+     }
+   ]
+}
+
+    a) Forces GetObject request to be encrypted if coming from CloudFront
+    b) Only allows the S3 bucket content to be accessed from your CloudFront distribution origin identity
+    c) Only allows GetObject type of request on the S3 bucket from anybody",b,Correct!
+

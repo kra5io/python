@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="icon" type='image/x-icon' href="{{ url_for('static', filename='favicon.ico') }}">
+	<title>aws practice</title>
+		<style>
+				body {
+					background-color: #2b2b2b;
+				}
+				input {
+					float: left;
+					background: none;
+					border: none;
+					margin-left: 50px;
+					color: lime;
+					outline: none;
+					
+				}
+				pre {
+					color: #a59e92;
+					font-size: 20px;
+					max-width: 99vw;
+					margin-left: 1px;
+					white-space: pre-wrap;
+
+				}
+				.answer {
+					color: pink;
+				}
+		</style>
+</head>
+<body>
+	<pre>{{question}}</pre>
+
+		<form method="post">
+            <p><input type=text name=guess autofocus></p>
+            <p><input type=text name=index value={{index}} style="display:none"></p>
+            <p><input type=submit value=submit style="display:none"></p>
+		</form>
+
+	<br>
+	<pre class="answer">{{detailed}}</pre>
+</body>
+</html>
